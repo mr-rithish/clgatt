@@ -8,15 +8,9 @@ import pandas as pd
 app = FastAPI()
 
 # Define request schema
-class LoginRequest(BaseModel):
-    htno: str
-    password: str
 
 @app.post("/get_student_data")
-def get_student_data(login: LoginRequest):
-    htno = login.htno
-    password = login.password
-    
+def get_student_data(htno: str,password: str):
     BASE_URL = "https://erp.vce.ac.in/sinfo/"
     LOGIN_URL = BASE_URL + "Default.aspx"
     ATTENDANCE_URL = BASE_URL + "DashBoard.aspx"
@@ -93,4 +87,5 @@ def get_student_data(login: LoginRequest):
         "student_info": student_data,
         "overall_summary": df_overall.to_dict(orient="records") if df_overall is not None else [],
         "subject_summary": df_subject.to_dict(orient="records") if df_subject is not None else []
+
     }
